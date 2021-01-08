@@ -7,3 +7,11 @@ img {
     border: 2px solid #fff;
     display: inline;
 }
+
+.logo {
+    vertical-align: middle;
+    height: 30px;
+    width: 30px;
+    border: none;
+    margin-bottom: 10px;
+}
