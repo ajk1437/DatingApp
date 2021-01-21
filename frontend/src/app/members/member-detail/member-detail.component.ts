@@ -6,6 +6,7 @@ import {
   NgxGalleryAnimation,
 } from '@kolkov/ngx-gallery';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { Member } from 'src/app/_models/member';
 import { Message } from 'src/app/_models/message';
@@ -34,7 +35,9 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private memberService: MembersService,
+     private toastr: ToastrService
   ) {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -99,6 +102,11 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     this.memberTabs.tabs[tabId].active = true;
   }
 
+  addLike(member: Member) {
+    this.memberService.addLike(member.username).subscribe(() => {
+      this.toastr.success('You have liked ' + member.knownAs);
+    })
+  }
   ngOnDestroy(): void {
     this.messageService.stopHubConnection();
   }
